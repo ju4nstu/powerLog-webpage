@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/customize-program.css">
+    <title>powerLog - custumize program</title>
+</head>
+<body>
+    <h1 class="header">placeholder for program title</h1>
+
+    <div class="container"> <!--this will be the exercise, sets and reps container-->
+        <div class="above-table">
+            <p>W1, D1 <a>add progression</a> </p> 
+        </div>
+        <table>
+            <tr class="static">
+                <th>n</th>
+                <th>exercise</th>
+                <th>sets</th>
+                <th>reps</th>
+                <th>
+                    intensity
+                </th>
+            </tr>
+            <tr class="custom">
+                <th style="width: 5%">1<!--exercise counter--></th>
+                <th style="width: 50%">squat<!--exercise selection--></th>
+                <th style="width: 15%">
+                    <!--sets selection-->
+                    <label for='sets'>
+                        <input type='number' id='sets' placeholder='0'>
+                    </label>
+                </th>
+                <th style="width: 15%">
+                    <!--reps selection-->
+                    <label for='reps'>
+                        <input type='number' id='reps' placeholder='0'>
+                    </label>
+                </th>
+                <th style="width: 15%">
+                    <label for='method'>
+                        <select id="method">
+                            <option value='rpe'>@</option>
+                            <option value='percentage'>%</option>
+                        </select>
+                    </label>
+                    <!--intensity selection-->
+                    <label for='intensity'>
+                        <input type='number' id='intensity' placeholder='0'>
+                    </label>
+                </th>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+    <!--Log in Modal-->
+    <div id="login-modal">
+        <h2>Login</h2>
+        <form action='/login' method='post' id="login-form" novalidade>
+            <label for="email">Email:</label><br>
+            <input type="text" id="email" name="email" style="width:50%; padding:8px; margin-bottom:10px;"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" style="width:50%; padding:8px; margin-bottom:10px;"><br>
+            <button type="submit" class="submit-btn">Log in</button>
+            <button type="button" class="close-modal-btn">Close</button>
+            <button type="button" class="submit-btn">Sign up</button>
+        </form>
+    </div>
+
+    <!--Sign up Modal-->
+    <div id="sign-up-modal">
+        <h2>Sign Up</h2>
+        <form action='/signup' method="post" id="signup-form" novalidade>
+            <label for="name">Username:</label><br>
+            <input type="text" id="name" name="name" style="width:50%; padding:8px; margin-bottom:10px;" required><br>
+            <label for="email-sign">Email:</label><br>
+            <input type="email" id="emailSign" name="email" style="width:50%; padding:8px; margin-bottom:10px;" required><br>
+            <label for="password-sign">Password:</label><br>
+            <input type="password" id="passwordSign" name="password" style="width:50%; padding:8px; margin-bottom:10px;" required><br>
+            <button type="submit" class="submit-sign-btn">Sign up</button>
+            <button type="button" class="close-modal-sign-btn">Close</button>
+        </form>  
+    </div>

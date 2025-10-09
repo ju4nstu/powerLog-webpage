@@ -1,0 +1,83 @@
+.header {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  margin-top: 5px;
+  border: 2px solid #ccc;
+  color: #e06666;
+}
+
+.container {
+  /*border: 2px solid rgb(255, 177, 7);*/
+  position: relative;
+  margin: auto;
+  margin-top: 15px;
+  width: 20%;
+  /*display: flex;
+  flex-direction: row;*/
+}
+
+.container.above-table {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10; 
+} 
+.container.above-table a {
+  right: 0;
+}
+
+.container table {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 500px;
+  margin-top: 50px;
+  /*display: flex;
+  align-items: left;*/
+  table-layout: auto;
+  border: 1px solid;
+  border-collapse: collapse;
+}
+
+.container tr.static {
+  color: #e06666;
+}
+.container th {
+  padding: 20px;
+}
+.container tr.custom {
+  color: #ccc;
+}
+
+select {
+  background-color: #121212;
+  /*background-color: red;*/
+  color: #fff;
+  border: 1px solid #121212;
+  padding: 5px;
+  appearance: none;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+input {
+  background-color: #121212;
+  color: #fff;
+  padding: 5px;
+  appearance: none;
+  width: 12px;
+  border: 1px solid #121212;
+}
+
+input::placeholder {
+  color: #ccc;
+  opacity: 1;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;                
+}

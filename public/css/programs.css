@@ -1,0 +1,15 @@
+.create-program p {
+  position: absolute;
+  left: 260px;
+}
+
+.create-program button {
+  top: 5px;
+  left: 260px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}

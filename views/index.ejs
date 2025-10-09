@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>powerLog</title>
+</head>
+<body>
+    <div class="container">
+        <!--Side bar-->
+        <%- include('partials/side-bar') %>
+
+        <!--Main content-->
+        <main class="content">
+            <h1 class="header">Welcome!</h1> <br>
+            <p class="paragraph">
+                This is powerLog - a platform built for strength training enthusiasts by a strength training enthusiast.
+                Here, you can create custom workout programs and exercises, track your progress in specific lifts or your overall total,
+                and monitor your bodyweight changes over time. You can also join discussions with other lifters by creating threads and sharing your insights,
+                questions, or achievements.
+            </p>
+
+            <h1 class="header">Functionality</h1> <br>
+            <p class="paragraph">
+                todo: explain each site funcionality
+            </p>
+        </main>
+    </div>
+
+    <!--Modals-->
+    <%- include('partials/modals') %>
+
+    <script src="../src/users.js"></script>
+    <script src="/js/modal.js"></script>
+</body>
+</html>
