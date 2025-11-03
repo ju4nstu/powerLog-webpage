@@ -2,29 +2,19 @@ import { fastify } from 'fastify'
 import formbody from '@fastify/formbody'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import pointOfView from '@fastify/view' // point of view plugin
+import pointOfView from '@fastify/view'
 import fastifyStatic from '@fastify/static'
-import ejs from 'ejs' // ejs support
+import ejs from 'ejs'
 import path from 'path'
-import { createProgram } from './programs.js'
-/*import bodyParser from 'body-parser'*/
 import bcrypt from 'bcrypt'
 import { sql }from './app.js'
-//import ejsLint from 'ejs-lint'
+import { error } from 'console'
 
-//ejsLint('../views/partials/side-bar', 'utf8')
 const server = fastify()
-const program = new createProgram()
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 server.register(formbody)
-
-// this add express
-/*await server.register(import('@fastify/express'))
-server.use(bodyParser.json()) // parse application/json
-server.use(bodyParser.urlencoded({ extended: true })) // parse application/urlencoded
-*/
 
 // render /views ejs files
 server.register(pointOfView, {
@@ -34,21 +24,20 @@ server.register(pointOfView, {
     root: path.join(__dirname, '../views')
 })
 
-// static files
 server.register(fastifyStatic, {
     root: path.join(__dirname, '../public')
 })
 
-
-// initialize user status
 export var logged_in_status = false
 
 // user sign up
 server.post('/signup', async (req, rep) => {
     try {
         // receber dados
-        const { name, email, password } = req.body
-        
+        const { username, email, password } = req.body
+        console.log("name: ", username)        
+        console.log(req.body)
+
         // verificar se o email ja esta logado
         const [rows] = await sql`
         SELECT email FROM users WHERE email = ${email};`
@@ -62,9 +51,11 @@ server.post('/signup', async (req, rep) => {
         // hash da senha
         const passwordHash = await bcrypt.hash(password, 10)
 
+        
+
         // inserir na db
         const insert = await sql`
-        INSERT INTO users (name, email, password) VALUES (${name}, ${email}, ${passwordHash});`
+        INSERT INTO users (name, email, password) VALUES (${username}, ${email}, ${passwordHash});`
         console.log("user created")
 
         // set default settings
@@ -119,6 +110,7 @@ server.post('/login', async(req, rep) => {
         if (!matchPassword || !user) {
             rep.send("password or email is wrong.")
             console.log("password or email is wrong.")
+            return rep.redirect("/")
         }
 
         // set user status
@@ -130,25 +122,50 @@ server.post('/login', async(req, rep) => {
         } 
 
         console.log("user logged in. data:", user)
+        rep.statusCode = 200
+        
     } catch (err) {
         console.log(err)
         /*rep.statusCode = 500
         rep.json({error: "server error"})*/
     }
-    return rep.viewAsync('index.ejs', { logged_in_status })
+    return rep.redirect('/')    
+    
 })
 
 server.get('/', (_req, rep) => {
-  // todo: show main page
   rep.view('index.ejs', { logged_in_status }) // render template
 })
 
-server.get('/settings', (_req, rep) => {
-    rep.view('settings.ejs', { logged_in_status })
+server.post('/settings', async (req, rep) => {
+    // get data from front end
+    try {
+        const { unit, theme, autoPR, workoutTimer, shareWorkout } = req.body
+        console.log(req.body)
+
+        const userID = logged_in_status.id
+        console.log('user id: ', userID)
+        console.log('about to do the query..')
+        
+        const query = await sql`
+        update user_settings set unit = ${unit}, theme = ${theme}, auto_detect_pr = ${autoPR}, workout_timer = ${workoutTimer}, share_workout = ${shareWorkout}
+        where user_id = ${userID};`
+
+        console.log('query completed.')
+        if (!query) {
+            console.log("error.")
+        }
+        console.log("success!")
+        rep.statusCode = 200
+    } catch (err) {
+        rep.send(err)
+    }
+    return rep.redirect('/')
+    // insert user settings in db
+
 })
 
 server.get('/programs', (_req, rep) => {
-    // todo: show programs page
     rep.view('programs.ejs', { logged_in_status })
 })
 
@@ -156,21 +173,41 @@ server.get('/programs/create', (req, rep) => {
     rep.view('create-program.ejs', { logged_in_status })
 })
 
+var exercises = await sql `select name from exercise;`
+console.log(exercises)
+
 server.get('/programs/create/customize', (_req, rep) => {
-    rep.view('customize-program.ejs', { logged_in_status })
+   return rep.viewAsync('customize-program.ejs', { logged_in_status, exercises })
+})
+
+
+server.post('/programs/create/customize/submit-program', async (req, rep) => {
+    const { program_name } = req.body
+    const { exercise, sets, reps, method, intensity } = req.body
+
+    for (var i = 0; i < exercise.length; i++) {
+        [exercises] = await sql`select id from exercise where name = ${exercise[i]};`
+    }
+    console.log('exercises id: ', exercises)
+
+    const insert_into_workout = await sql`
+    insert into workout(program_id) values ( (select id from programs where name = ${program_name}) ) returning id;`
+        
+    const workout_id = insert_into_workout[0].id
+    console.log('workout id:', workout_id)
+
+    await sql`
+    insert into workout_exercises(exercise_id, workout_id) values ( (select id from exercise where name = any(${exercise})), ${workout_id} );`
+
+    console.log('operation completed.')
 })
 
 server.post('/programs/create', async (req, rep) => {
-    // todo: insert program into database
     try {
         const { name, length, description } = req.body
         console.log( "req.body: ", name, length, description )
-        //console.log(req.body)
-        
-        // todo: pass logged_in_status to this function
         
         const id = logged_in_status.id
-        console.log("id: ", id)
 
         const insert = await sql`
         insert into programs(name, length, description, user_id) values 
@@ -184,25 +221,54 @@ server.post('/programs/create', async (req, rep) => {
     }
 })
 
+const muscle_group = await sql`select name from muscle_group;`
 
-
-
-// request body for program creation
-/*
-server.post('/programs/create', (req, rep) => {
-    const { name, description, length } = request.body
-
-    program.create({
-        name,
-        description,
-        length,
-    })
-
-    return reply.status(201).send()
+server.get('/exercises', (_req, rep) => {
+    rep.view('exercises.ejs', { logged_in_status, muscle_group, exercises })
 })
-*/
+
+server.post('/exercises/add', async (req, rep) => {
+    try {
+        const { name, type, muscle_group } = req.body
+
+        const verify = await sql`select name from exercise where name = ${name};`
+        
+        if (verify.length > 0) {
+            console.log("exercise already exists.")
+            return rep.redirect('/exercises')
+        }
+        
+        const [inserted] = await sql`
+        insert into exercise(name, exercise_type) values(${name}, ${type}) returning id;`
+        const exercise_id = inserted.id 
+
+        for (const muscle of muscle_group) {
+            await sql`
+            insert into muscle_exercise(exercise_id, muscle_id) values (${exercise_id}, (select id from muscle_group where name = ${muscle}));`
+        }
+
+        // problems: it the relation between muscle and exercise is not being created.
+
+        console.log("exercise added.")
+        return rep.redirect('/exercises')
+        
+    } catch (err) {
+        rep.send(err)
+    }
+})
+
+server.post('/exercises/delete', async (req, rep) => {
+    const exercise_to_delete_name = req.body
+    try {
+        await sql`
+        delete from exercise where name = any(${exercise_to_delete_name.exercise_to_delete_name});`
+        console.log("exercise deleted.")
+    } catch (err) {
+        rep.send(err)
+    }
+})
 
 server.listen({
     port: 5001,
 })
-console.log("port: 5001")
+console.log("server running on port 5001")

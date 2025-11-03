@@ -7,7 +7,7 @@
   color: #e06666;
 }
 
-.container {
+.workout {
   /*border: 2px solid rgb(255, 177, 7);*/
   position: relative;
   margin: auto;
@@ -17,17 +17,17 @@
   flex-direction: row;*/
 }
 
-.container.above-table {
+.workout.above-table {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 10; 
 } 
-.container.above-table a {
+.workout.above-table a {
   right: 0;
 }
 
-.container table {
+.workout table {
   position: absolute;
   top: 0;
   left: 0;
@@ -41,13 +41,13 @@
   border-collapse: collapse;
 }
 
-.container tr.static {
+.workout tr.static {
   color: #e06666;
 }
-.container th {
+.workout th {
   padding: 20px;
 }
-.container tr.custom {
+.workout tr.custom {
   color: #ccc;
 }
 

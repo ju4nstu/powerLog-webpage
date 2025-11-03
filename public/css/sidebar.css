@@ -120,5 +120,77 @@ aside button#open-modal-btn{
   margin-left: 10px;
   cursor: pointer;
 }
+
+aside button#settings-button {
+  background-color: #0000;
+  position: absolute;
+  bottom: 20px;
+  left: 80%;
+  border: none;
+  cursor: pointer;
+}
+
+#settings-container { position: relative; display: inline-block; }
+
+#settings-popover[hidden] { display: none; }
+
+#settings-popover {
+  position: absolute;
+  bottom: 35px;
+  left: 230px;
+  margin-top: 6px;
+  background: #222;
+  color: #eee;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 8px 0;
+  min-width: 220px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  z-index: 1000;
+}
+
+#settings-menu,
+#settings-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#settings-menu > li { position: relative; }
+
+[role="menuitem"],
+[role="menuitemradio"] {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  color: inherit;
+  padding: 8px 14px;
+  cursor: pointer;
+  font: inherit;
+}
+
+[role="menuitem"]:hover,
+[role="menuitemradio"]:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+#unit-submenu,
+#theme-submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 4px;
+  background: #222;
+  border: 1px solid #444;
+  border-radius: 8px;
+  min-width: 160px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  padding: 6px 0;
+}
+
+#unit-submenu[hidden],
+#theme-submenu[hidden] { display: none; }
 /* modal end */
 

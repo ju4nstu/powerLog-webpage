@@ -7,53 +7,95 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/customize-program.css">
     <title>powerLog - custumize program</title>
+
 </head>
 <body>
-    <h1 class="header">placeholder for program title</h1>
-
-    <div class="container"> <!--this will be the exercise, sets and reps container-->
-        <div class="above-table">
-            <p>W1, D1 <a>add progression</a> </p> 
+    <h1 class="header">placeholder for program name</h1>
+    
+    <form action="/programs/create/customize/submit-program" method="POST" id="submit-program-form">
+        <div class="week" data-week="1">
+            <div class="workout" data-day="1"> <!--this will be the exercise, sets and reps container-->
+                <div class="above-table">
+                    <p>W1, D1 <a id="add-progression">add progression</a> </p> 
+                </div>
+                    <table id="table">
+                        <tr class="static">
+                            <th>n</th>
+                            <th>exercise</th>
+                            <th>sets</th>
+                            <th>reps</th>
+                            <th>intensity</th>  
+                        </tr>
+                        <tr class="custom">
+                            <th style="width: 5%" id="counter">1</th>
+                            <th style="width: 50%"> <!--exercise selection-->
+                                <select name="exercise[]">
+                                    <% for (let i = 0; i < exercises.length; i++) { %>
+                                        <option value="<%= exercises[i].name %>"><%= exercises[i].name %></option>
+                                    <% } %>
+                                </select>
+                            </th>
+                            <th style="width: 15%">
+                                <!--sets selection-->
+                                <label for='sets[]'>
+                                    <input type='number' name='sets[]' placeholder='0'>
+                                </label>
+                            </th>
+                            <th style="width: 15%">
+                                <!--reps selection-->
+                                <label for='reps[]'>
+                                    <input type='number' name='reps[]' placeholder='0'>
+                                </label>
+                            </th>
+                            <th style="width: 15%">
+                                <label for='method[]'>
+                                    <select name="method[]">
+                                        <option value='rpe'>@</option>
+                                        <option value='percentage'>%</option>
+                                    </select>
+                                </label>
+                                <!--intensity selection-->
+                                <label for='intensity[]'>
+                                    <input type='number' name='intensity[]' style="width: 20px;" placeholder='0'>
+                                </label>
+                            </th>
+                        </tr>
+                        <button type='button' onclick="addRow()">add row</button>
+                        <button type="button" onclick="addDay()">add day</button>
+                    </table>
+                    <input type="hidden" name="program" id="program-json">
+                    <button type="submit">submit</button>
+                </div>
         </div>
-        <table>
-            <tr class="static">
-                <th>n</th>
-                <th>exercise</th>
-                <th>sets</th>
-                <th>reps</th>
-                <th>
-                    intensity
-                </th>
-            </tr>
-            <tr class="custom">
-                <th style="width: 5%">1<!--exercise counter--></th>
-                <th style="width: 50%">squat<!--exercise selection--></th>
-                <th style="width: 15%">
-                    <!--sets selection-->
-                    <label for='sets'>
-                        <input type='number' id='sets' placeholder='0'>
-                    </label>
-                </th>
-                <th style="width: 15%">
-                    <!--reps selection-->
-                    <label for='reps'>
-                        <input type='number' id='reps' placeholder='0'>
-                    </label>
-                </th>
-                <th style="width: 15%">
-                    <label for='method'>
-                        <select id="method">
-                            <option value='rpe'>@</option>
-                            <option value='percentage'>%</option>
-                        </select>
-                    </label>
-                    <!--intensity selection-->
-                    <label for='intensity'>
-                        <input type='number' id='intensity' placeholder='0'>
-                    </label>
-                </th>
-            </tr>
-        </table>
-    </div>
+    </form>
+    <script src="/js/submit-program.js"></script>
+    <script>
+        function rowCounter() {
+            const rows = document.querySelectorAll('.custom')
+            const counter = document.getElementById('counter')
+            
+            counter.innerHTML = rows.length
+        } 
+
+        function addRow() {
+            const table = document.querySelector('.custom')
+            const cloneRow = table.cloneNode(true)
+            
+            table.parentNode.appendChild(cloneRow)
+            rowCounter()
+        }
+
+        function addDay() {
+            const table = document.querySelectorAll('.workout').forEach(element => {
+                workoutDay = parseInt(element.dataset.day, 10)
+                workoutDayActual = workoutDay + 1
+            })
+            const cloneTable = table.cloneNode(true)
+
+            table.style.marginTop = '200px'
+            table.parentNode.appendChild(cloneTable)
+        }
+    </script>
+    
 </body>
 </html>

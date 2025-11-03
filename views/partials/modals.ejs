@@ -26,3 +26,95 @@
             <button type="button" class="close-modal-sign-btn">Close</button>
         </form>  
     </div>
+
+
+<!-- Popover wrapper (helps with positioning later in CSS) -->
+<div id="settings-popover" hidden>
+  <!-- Main menu -->
+  <ul id="settings-menu" role="menu" aria-label="Settings menu">
+    <!-- Unit parent item -->
+    <li role="none">
+      <button
+        id="unit-parent"
+        role="menuitem"
+        aria-haspopup="menu"
+        aria-expanded="false"
+        aria-controls="unit-submenu"
+      >
+        Unit
+      </button>
+
+      <!-- Unit submenu -->
+      <ul
+        id="unit-submenu"
+        role="menu"
+        aria-labelledby="unit-parent"
+        hidden
+      >
+        <li role="none">
+          <button
+            role="menuitemradio"
+            aria-checked="true"
+            data-setting="unit"
+            data-value="kg"
+          >
+            ✓ kg
+          </button>
+        </li>
+        <li role="none">
+          <button
+            role="menuitemradio"
+            aria-checked="false"
+            data-setting="unit"
+            data-value="lbs"
+          >
+            lbs
+          </button>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Theme parent item -->
+    <li role="none">
+      <button
+        id="theme-parent"
+        role="menuitem"
+        aria-haspopup="menu"
+        aria-expanded="false"
+        aria-controls="theme-submenu"
+      >
+        Theme
+      </button>
+
+      <!-- Theme submenu -->
+      <ul
+        id="theme-submenu"
+        role="menu"
+        aria-labelledby="theme-parent"
+        hidden
+      >
+        <li role="none">
+          <button
+            role="menuitemradio"
+            aria-checked="false"
+            data-setting="theme"
+            data-value="dark"
+          >
+            dark
+          </button>
+        </li>
+        <li role="none">
+          <button
+            role="menuitemradio"
+            aria-checked="true"
+            data-setting="theme"
+            data-value="light"
+          >
+            ✓ light
+          </button>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+

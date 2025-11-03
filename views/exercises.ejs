@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>powerLog - Settings</title>
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <%- include('partials/side-bar') %>
+    <%- include('partials/modals') %>
+    <main class="content">
+        <h1 class="header">Exercises</h1>
+        <p class="paragraph">This is the exercises page. Here, you will be able to view, create, edit and delete your custom exercises.</p>
+        <form action="/exercises/add" method="post" id="add-exercise-form">
+            <label for="exercise-name">
+                Name:<input type="text" id="exercise-name">
+            </label> <br>
+
+            <label for="exercise-type">
+                Exercise type:<select id="exercise-type">
+                    <option value="strength">Strength</option>
+                    <option value="cardio">Cardio</option>
+                    <option value="mobility">Mobility</option>
+                </select> <br>
+            </label>
+
+            <label for="muscles-worked[]">
+                Muscles worked: <br><select name='muscles-worked[]' multiple>
+                    <% for (let i = 0; i < muscle_group.length; i++) { %>
+                        <option value="<%= muscle_group[i].name %>"><%= muscle_group[i].name %></option>
+                    <% } %>
+                </select> <br>
+            </label>
+            <button type="submit">Create Exercise</button>
+        </form>     
+        <form action="/exercises/delete" method="post" id="delete-exercise-form">
+            <label for="exercise-to-delete">
+                Select Exercise to Delete: <br>
+                <select name="exercise-to-delete[]" multiple>
+                    <% for (let i = 0; i < exercises.length; i++) { %>
+                        <option value="<%= exercises[i].name %>"><%= exercises[i].name %></option>
+                    <% } %>
+                </select> <br>
+            </label>
+            <button type="submit">Delete Exercise</button>
+    </main>
+    <script src="/js/buttons.js"></script>
+    <script src="/js/modal.js"></script>
+    <script src="/js/users.js"></script>
+</body>
+</html>
